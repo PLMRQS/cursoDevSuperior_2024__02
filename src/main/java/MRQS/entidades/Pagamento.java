@@ -6,6 +6,7 @@ package MRQS.entidades;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_pagamento")
@@ -47,7 +48,19 @@ public class Pagamento {
 
     public void setPedido(Pedido pedido) { this.pedido = pedido; }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Pagamento pagamento = (Pagamento) o;
+        return Objects.equals(id, pagamento.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
 
 

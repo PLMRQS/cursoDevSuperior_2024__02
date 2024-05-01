@@ -3,11 +3,25 @@
 
 package MRQS.entidades;
 
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+
+@Entity
+@Table(name = "tb_categoria")
 public class Categoria {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String nome;
+
+    @ManyToMany(mappedBy = "categorias")
+    private Set<Produto> produtos = new HashSet<>();
 
 
     public Categoria() {
@@ -29,9 +43,41 @@ public class Categoria {
     public void setNome(String nome) { this.nome = nome; }
 
 
+    public Set<Produto> getProdutos() { return produtos; }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Categoria categoria = (Categoria) o;
+        return Objects.equals(id, categoria.id);
+    }
 
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

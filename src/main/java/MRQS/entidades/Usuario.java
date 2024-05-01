@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tb_usuario")
@@ -19,8 +20,10 @@ public class Usuario {
 
     private String nome;
 
+    @Column(unique = true) // com isso definimos que esse campo será unico na tabela
     private String email;
 
+    @Column(unique = true)
     private String celular;
 
     private LocalDate dataNascimento;
@@ -79,6 +82,20 @@ public class Usuario {
 
     // para que possamos acessar essa lista, precisamos definir um get para pedidos
     public List<Pedido> getPedidos() { return pedidos; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Usuario usuario = (Usuario) o;
+        return Objects.equals(id, usuario.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
 
 

@@ -7,6 +7,10 @@ import MRQS.enuns.StatusPedido;
 import jakarta.persistence.*;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_pedido")
@@ -29,6 +33,10 @@ public class Pedido {
 
     @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
     private Pagamento pagamento;
+
+    @OneToMany(mappedBy = "id.pedido")
+    private Set<ItemPedido> itemPedidos = new HashSet<>();
+
 
 
     // construtor vazio sem argumentos:
@@ -67,6 +75,25 @@ public class Pedido {
 
     public void setPagamento(Pagamento pagamento) { this.pagamento = pagamento; }
 
+
+    public Set<ItemPedido> getItemPedidos() { return itemPedidos; }
+
+
+    public List<Produto> setProdutos() { return itemPedidos.stream().map(x -> x.getProduto()).toList(); }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Pedido pedido = (Pedido) o;
+        return Objects.equals(id, pedido.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
 
 
